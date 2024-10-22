@@ -1,0 +1,29 @@
+.admin-dashboard {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-dashboard h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .admin-dashboard ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .admin-dashboard li {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  /* התאמה למכשירים ניידים */
+  @media only screen and (max-width: 768px) {
+    .admin-dashboard {
+      padding: 10px;
+    }
+  }
+  

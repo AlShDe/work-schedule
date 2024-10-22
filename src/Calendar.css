@@ -1,0 +1,66 @@
+.calendar-container {
+    margin-top: 20px;
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+  }
+  
+  .date-button {
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .date-button.unavailable {
+    background-color: #FF6347;
+  }
+  
+  .date-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .history {
+    margin-top: 20px;
+  }
+  
+  .history h4 {
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .history p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* התאמה למכשירים ניידים */
+  @media only screen and (max-width: 768px) {
+    .calendar-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  
+    .calendar-header {
+      flex-direction: column;
+    }
+  
+    .calendar-header h3 {
+      margin: 10px 0;
+    }
+  }
+  
