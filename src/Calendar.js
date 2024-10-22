@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { format, addMonths, subMonths } from 'date-fns';
+import { format, addMonths } from 'date-fns';
 import './Calendar.css';
 
 function Calendar({ onUnavailableDatesChange, unavailableDates }) {
@@ -11,18 +11,26 @@ function Calendar({ onUnavailableDatesChange, unavailableDates }) {
     const dateFormatted = format(date, 'yyyy-MM-dd');
     const monthKey = format(date, 'yyyy-MM');
 
-    if (!unavailableDates[monthKey]) {
-      unavailableDates[monthKey] = [];
-    }
+    // אם התאריך כבר חסום, נבצע ביטול חסימה
+    if (unavailableDates[monthKey]?.includes(dateFormatted)) {
+      const newUnavailableDates = {
+        ...unavailableDates,
+        [monthKey]: unavailableDates[monthKey].filter(date => date !== dateFormatted),
+      };
+      onUnavailableDatesChange(newUnavailableDates);
+      alert("Date unblocked: " + dateFormatted);
+    } else {
+      // אם התאריך לא חסום, נחסום אותו
+      if (!unavailableDates[monthKey]) {
+        unavailableDates[monthKey] = [];
+      }
 
-    if (!unavailableDates[monthKey].includes(dateFormatted)) {
       const newUnavailableDates = {
         ...unavailableDates,
         [monthKey]: [...unavailableDates[monthKey], dateFormatted],
       };
       onUnavailableDatesChange(newUnavailableDates);
-    } else {
-      alert("You already blocked this date.");
+      alert("Date blocked: " + dateFormatted);
     }
   };
 
@@ -39,7 +47,7 @@ function Calendar({ onUnavailableDatesChange, unavailableDates }) {
         <button
           key={`${monthOffset}-${i}`}
           onClick={() => handleDateClick(date)}
-          className={`date-button ${unavailableDates[monthKey] && unavailableDates[monthKey].includes(format(date, 'yyyy-MM-dd')) ? 'unavailable' : ''}`}
+          className={`date-button ${unavailableDates[monthKey]?.includes(format(date, 'yyyy-MM-dd')) ? 'unavailable' : ''}`}
         >
           {i}
         </button>
@@ -64,6 +72,14 @@ function Calendar({ onUnavailableDatesChange, unavailableDates }) {
     return format(currentMonth, 'MMMM yyyy');
   };
 
+  // פונקציה לשמירה במסד הנתונים
+  const handleSave = () => {
+    // כאן תוכל להוסיף את הקוד לשמירה במסד הנתונים
+    // לדוגמה: Firebase.firestore().collection('yourCollection').doc('yourDocId').set(unavailableDates)
+    console.log("Saving unavailable dates to database:", unavailableDates);
+    alert("Unavailable dates have been saved!");
+  };
+
   return (
     <div className="calendar-container">
       <h2>Select Unavailable Dates</h2>
@@ -77,6 +93,8 @@ function Calendar({ onUnavailableDatesChange, unavailableDates }) {
         </button>
       </div>
       <div className="calendar-grid">{renderCalendar(currentMonthOffset)}</div>
+
+      <button onClick={handleSave}>Save Unavailable Dates</button>
 
       <h2>Your History</h2>
       <div className="history">
